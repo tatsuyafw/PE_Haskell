@@ -1,4 +1,4 @@
-]-- Project Euler / Problem52
+-- Project Euler / Problem52
 
 import Data.List
 
