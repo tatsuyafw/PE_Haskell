@@ -2,7 +2,6 @@
 
 type Layer = Int
 
-
 divisors :: Int -> [Int]
 divisors n = n : [x | x <- [1..u], n `mod` x == 0]
     where u = n `div` 2
@@ -21,9 +20,20 @@ ratio :: (Int, Int) -> Float
 ratio (n, d) = fromIntegral n / fromIntegral d
 
 --problem58 = head . dropWhile (> 0.1) $ ratioList
-problem58 = take limit $ primeNumList
+--problem58 = take limit $ primeNumList
+--problem58 = until checkRatio (\(n, d) -> )
+problem58 = func (0, 1) primeNumList
     where
-      ratioList = tail . take limit . map ratio . scanl f (0, 1) $ primeNumList
-      limit = 200
+      func acc (x:xs) = if checkRatio acc
+                              then return acc
+                              else do
+                                print x
+                                func (f acc x) xs
+      checkRatio t = (ratio t < 0.1) && (ratio t /= 0.0)
+      --ratioList = take limit . map ratio . scanr f (0, 1) $ primeNumList
+      --ratioList = take limit . map ratio . scanr f (0, 1) $ primeNumList
+      --limit = 300
       primeNumList = map primeNumAtLayer [1..]
-      f (n, m) l = (n + l, m + 4)
+      f (n, d) x = (n + x, d + 4)
+      --primeNumList = map primeNumAtLayer [1..]
+      
